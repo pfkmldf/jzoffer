@@ -1,0 +1,36 @@
+## 二叉树的下一个节点 ##
+剑指offer58题
+#### 解题思路
+这个题需要考虑的点是
+
+
+1. 该节点存在右子树，那么下一个节点就是右子树的最左节点
+2. 该节点不存在右子树的话
+	1. 该节点是父节点的左节点，那么下一个节点是父节点
+	2. 该节点是父节点的右节点，向上查找到一个节点是其父节点的左节点，那么这个节点的父节点就是下一个节点   
+####代码 ####
+    class Solution {
+    public:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+    	if(pNode == nullptr) return nullptr;
+    	TreeLinkNode* temp = nullptr;
+    	if(pNode->right)
+    	{
+    		temp =  pNode->right;
+    		while(temp->left) temp = temp->left;
+    	}
+    	else if(pNode->next)
+    	{
+    		TreeLinkNode* cur = pNode;
+    		TreeLinkNode* parent = pNode->next;
+    		while(parent != nullptr && parent->left != cur)
+    		{
+    			cur = cur->next;
+    			parent = parent->next;
+    		}
+    		temp = parent;
+    	}
+    	return temp;
+    }
+    };
